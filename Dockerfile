@@ -1,14 +1,12 @@
-# Usar una imagen base con Java 21
-FROM openjdk:21-jdk-slim
-
-# Establecer el directorio de trabajo dentro del contenedor
+# Etapa 1: Construcción del .jar
+FROM maven:3.9.3-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo .jar de la carpeta target al contenedor
-COPY target/productos-0.0.1-SNAPSHOT.jar app.jar
-
-# Exponer el puerto 8080
+# Etapa 2: Ejecutar la app
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Ejecutar la aplicación con Java
 ENTRYPOINT ["java", "-jar", "app.jar"]
