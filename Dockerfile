@@ -5,7 +5,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copiar el archivo .jar de la carpeta target al contenedor
-COPY target/qualia-api-0.0.1-SNAPSHOT.jar app.jar
+COPY target/productos-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponer el puerto 8080
 EXPOSE 8080
